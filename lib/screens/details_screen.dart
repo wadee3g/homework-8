@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:homework08/models/beauty.dart';
 
@@ -10,87 +9,117 @@ class DetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
-        title: Text(item.title ?? "التفاصيل"),
-        backgroundColor: Colors.deepOrange,
+        title: Text(item.title ?? "Details"),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
-            _buildSectionTitle("Description"),
+            if (item.images != null && item.images!.isNotEmpty)
+              Image.network(
+                item.images![0],
+                height: 300,
+                width: double.infinity,
+                fit: BoxFit.contain,
+              )
+            else
+              const Icon(
+                Icons.image_not_supported,
+                size: 100,
+                color: Colors.grey,
+              ),
+
+            const SizedBox(height: 20),
+
             Text(
-              item.description ?? "No description available",
-              style: const TextStyle(fontSize: 16, height: 1.5),
+              item.title ?? "",
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.deepOrange,
+              ),
             ),
-            const Divider(height: 30),
 
+            const SizedBox(height: 15),
 
-            _buildSectionTitle("Warranty & Shipping"),
-            _buildInfoRow(Icons.verified_user, "Warranty", item.warrantyInformation),
-            const SizedBox(height: 10),
-            _buildInfoRow(Icons.local_shipping, "Shipping", item.shippingInformation),
-            const Divider(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "${item.price} SAR",
+                  style: const TextStyle(
+                    fontSize: 24,
+                    color: Colors.orangeAccent,
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Text(
+                  "⭐ ${item.rating}",
+                  style: const TextStyle(
+                    fontSize: 24,
+                    color: Colors.orangeAccent,
+                  ),
+                ),
+              ],
+            ),
 
-            
-            if (item.reviews != null && item.reviews!.isNotEmpty) ...[
-              _buildSectionTitle("Reviews (${item.reviews!.length})"),
+            const SizedBox(height: 20),
 
-              ...item.reviews!.map((review) {
-                
-                if (review is Map) {
-                  return Card(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    child: ListTile(
-                      leading: const Icon(Icons.comment, color: Colors.orangeAccent),
-                      title: Text(review['comment'] ?? ""),
-                      subtitle: Text("Rating: ${review['rating']} ⭐"),
-                      trailing: Text(review['reviewerName'] ?? "", style: const TextStyle(fontSize: 12, color: Colors.grey)),
-                    ),
-                  );
-                }
-                return const SizedBox.shrink();
-              }).toList(),
-            ],
+            const Text(
+              "Description",
+              style: TextStyle(
+                fontSize: 22,
+                color: Colors.deepOrange,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                item.description ?? "No description",
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 18, color: Colors.white),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+            const Text(
+              "Warranty Information",
+              style: TextStyle(
+                fontSize: 22,
+                color: Colors.deepOrange,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              item.warrantyInformation ?? "N/A",
+              style: const TextStyle(fontSize: 18, color: Colors.white),
+            ),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              "Shipping Information",
+              style: TextStyle(
+                fontSize: 22,
+                color: Colors.deepOrange,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              item.shippingInformation ?? "N/A",
+              style: const TextStyle(fontSize: 18, color: Colors.white),
+            ),
+
+            const SizedBox(height: 40),
           ],
         ),
       ),
-    );
-  }
-
-  
-  Widget _buildSectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.deepOrange,
-        ),
-      ),
-    );
-  }
-
-
-  Widget _buildInfoRow(IconData icon, String label, String? value) {
-    return Row(
-      children: [
-        Icon(icon, color: Colors.grey[700], size: 20),
-        const SizedBox(width: 8),
-        Text(
-          "$label: ",
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-        ),
-        Expanded(child: Text(
-            value ?? "N/A",
-            style: const TextStyle(fontSize: 16),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -8,10 +8,15 @@ class BeautyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
         title: Text("Sephora"),
-        titleTextStyle: TextStyle(color: Colors.white),
+        titleTextStyle: TextStyle(
+          fontSize: 30,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
         centerTitle: true,
       ),
       body: FutureBuilder(
@@ -26,19 +31,27 @@ class BeautyScreen extends StatelessWidget {
               final item = snapshot.data![index];
               return GestureDetector(
                 onTap: () {
-                  // 2. تمرير الـ item إلى شاشة التفاصيل
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      // هنا نضع الـ item الذي عرفناه فوق داخل DetailsScreen
                       builder: (context) => DetailsScreen(item: item),
                     ),
                   );
                 },
                 child: Container(
-                  margin: EdgeInsets.all(20),
-                  padding: EdgeInsets.all(8),
-                  color: const Color.fromARGB(255, 84, 83, 83),
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1E1E1E),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5),
+                        blurRadius: 10,
+                        offset: const Offset(0, 5),
+                      ),
+                    ],
+                  ),
                   child: Column(
                     children: [
                       Image.network(snapshot.data![index].images![0]),
@@ -46,19 +59,19 @@ class BeautyScreen extends StatelessWidget {
                       Text(
                         snapshot.data![index].title ?? "",
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 20,
                           color: Colors.deepOrange,
                         ),
                       ),
                       Text(
-                        snapshot.data![index].price.toString(),
+                        "${snapshot.data![index].price.toString()} SAR",
                         style: TextStyle(
                           fontSize: 22,
                           color: Colors.orangeAccent,
                         ),
                       ),
                       Text(
-                        snapshot.data![index].rating.toString(),
+                        "⭐ ${snapshot.data![index].rating.toString()}",
                         style: TextStyle(
                           fontSize: 22,
                           color: Colors.orangeAccent,
