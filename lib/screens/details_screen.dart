@@ -13,7 +13,9 @@ class DetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(item.title ?? "Details"),
         backgroundColor: Colors.transparent,
-        elevation: 0,
+        centerTitle: true,
+        titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+        
       ),
       body: SingleChildScrollView(
         child: Column(
