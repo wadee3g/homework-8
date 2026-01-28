@@ -5,7 +5,7 @@ class Beauty {
   double? rating;
   String? warrantyInformation;
   String? shippingInformation;
-  List<Map>? reviews;
+  List<dynamic>? reviews;
   List<String>? images;
   Map<String, dynamic>? meta;
 
@@ -25,13 +25,17 @@ class Beauty {
     return Beauty(
       title: json["title"] ?? "",
       description: json["description"] ?? "",
-      price: json["price"] ?? 0,
-      rating: json["rating"] ?? 0,
+      price: (json["price"] as num?)?.toDouble() ?? 0.0,
+      rating: (json["rating"] as num?)?.toDouble() ?? 0.0,
       warrantyInformation: json["warrantyInformation"] ?? "",
       shippingInformation: json["shippingInformation"] ?? "",
-      images: json["images"] ?? [],
+      images:
+          (json["images"] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
       reviews: json["reviews"] ?? [],
-      meta: json["meta"] ?? {}
-     );
+      meta: json["meta"] ?? {},
+    );
   }
 }
