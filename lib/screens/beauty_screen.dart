@@ -56,10 +56,36 @@ class BeautyScreen extends StatelessWidget {
                     children: [
                       Hero(
                         tag: item.title ?? "tag_${index}",
-                        child: Image.network(item.images![0]),
+                        child: Image.network(
+                          item.images![0],
+
+                          loadingBuilder:
+                              (
+                                BuildContext context,
+                                Widget child,
+                                ImageChunkEvent? loadingProgress,
+                              ) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value:
+                                        loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              },
+
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Icon(Icons.error);
+                          },
+                        ),
                       ),
-                      // Image.network(snapshot.data![index].images![0]),
-                      // SizedBox(height: 8),
+
                       Text(
                         snapshot.data![index].title ?? "",
                         style: TextStyle(
