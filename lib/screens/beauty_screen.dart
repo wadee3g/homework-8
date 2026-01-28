@@ -54,8 +54,12 @@ class BeautyScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Image.network(snapshot.data![index].images![0]),
-                      SizedBox(height: 8),
+                      Hero(
+                        tag: item.title ?? "tag_${index}",
+                        child: Image.network(item.images![0]),
+                      ),
+                      // Image.network(snapshot.data![index].images![0]),
+                      // SizedBox(height: 8),
                       Text(
                         snapshot.data![index].title ?? "",
                         style: TextStyle(

@@ -19,11 +19,14 @@ class DetailsScreen extends StatelessWidget {
         child: Column(
           children: [
             if (item.images != null && item.images!.isNotEmpty)
-              Image.network(
-                item.images![0],
-                height: 300,
-                width: double.infinity,
-                fit: BoxFit.contain,
+              Hero(
+                tag: item.title ?? "tag_details",
+                child: Image.network(
+                  item.images![0],
+                  height: 300,
+                  width: double.infinity,
+                  fit: BoxFit.contain,
+                ),
               )
             else
               const Icon(
@@ -31,6 +34,19 @@ class DetailsScreen extends StatelessWidget {
                 size: 100,
                 color: Colors.grey,
               ),
+            // if (item.images != null && item.images!.isNotEmpty)
+            //   Image.network(
+            //     item.images![0],
+            //     height: 300,
+            //     width: double.infinity,
+            //     fit: BoxFit.contain,
+            //   )
+            // else
+            //   const Icon(
+            //     Icons.image_not_supported,
+            //     size: 100,
+            //     color: Colors.grey,
+            //   ),
 
             const SizedBox(height: 20),
 
